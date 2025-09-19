@@ -5,13 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="game-container">
-        <div class="score">Score: <span id="score">0</span></div>
+        <h1 class="game-title">🐍 Snake Game</h1>
+        <div class="score-container">
+            <div class="current-score">Score: <span id="score">0</span></div>
+            <div class="high-score">High Score: <span id="highScore">0</span></div>
+        </div>
         <div id="game-board"></div>
         <div class="controls">
-            <button onclick="startGame()">Start Game</button>
+            <button id="startBtn" onclick="startGame()">
+                <i class="fas fa-play"></i> Start Game
+            </button>
+            <button id="pauseBtn" onclick="togglePause()">
+                <i class="fas fa-pause"></i> Pause
+            </button>
+        </div>
+        <div class="mobile-controls">
+            <button class="direction-btn" onclick="handleDirection('up')">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            <div class="horizontal-controls">
+                <button class="direction-btn" onclick="handleDirection('left')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="direction-btn" onclick="handleDirection('right')">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <button class="direction-btn" onclick="handleDirection('down')">
+                <i class="fas fa-arrow-down"></i>
+            </button>
+        </div>
+        <div id="gameOverOverlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Game Over!</h2>
+                <p>Score: <span id="finalScore">0</span></p>
+                <p>High Score: <span id="finalHighScore">0</span></p>
+                <button onclick="startGame()">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+            </div>
         </div>
     </div>
     <script src="game.js"></script>
