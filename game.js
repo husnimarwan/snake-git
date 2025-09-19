@@ -185,17 +185,21 @@ document.addEventListener('keydown', event => {
     }
     
     if (!isPaused) {
-        switch (event.key) {
-            case 'ArrowUp':
+        switch (event.key.toLowerCase()) {
+            case 'arrowup':
+            case 'w':
                 if (direction !== 'down') nextDirection = 'up';
                 break;
-            case 'ArrowDown':
+            case 'arrowdown':
+            case 's':
                 if (direction !== 'up') nextDirection = 'down';
                 break;
-            case 'ArrowLeft':
+            case 'arrowleft':
+            case 'a':
                 if (direction !== 'right') nextDirection = 'left';
                 break;
-            case 'ArrowRight':
+            case 'arrowright':
+            case 'd':
                 if (direction !== 'left') nextDirection = 'right';
                 break;
         }
