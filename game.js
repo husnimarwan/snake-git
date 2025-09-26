@@ -12,7 +12,10 @@ let direction = 'right';
 let nextDirection = 'right';
 let gameLoop;
 let score = 0;
-let highScore = localStorage.getItem('snakeHighScore') || 0;
+// Load high score history from localStorage
+let highScoreHistory = JSON.parse(localStorage.getItem('snakeHighScoreHistory')) || [];
+// Current high score is the highest score in the history or 0 if no history
+let highScore = highScoreHistory.length > 0 ? Math.max(...highScoreHistory.map(entry => entry.score)) : 0;
 let isPaused = false;
 let currentSpeed = INITIAL_SPEED;
 
@@ -24,9 +27,15 @@ const gameOverOverlay = document.getElementById('gameOverOverlay');
 const finalScoreElement = document.getElementById('finalScore');
 const finalHighScoreElement = document.getElementById('finalHighScore');
 const pauseBtn = document.getElementById('pauseBtn');
+const highScoreHistoryElement = document.getElementById('highScoreHistory');
 
 // Update high score display
 highScoreElement.textContent = highScore;
+
+// Initialize high score history display
+if (highScoreHistoryElement) {
+    updateHighScoreHistoryDisplay();
+}
 
 function startGame() {
     // Reset game state
@@ -164,11 +173,26 @@ function drawGame() {
 function endGame() {
     clearInterval(gameLoop);
     
-    // Update high score if necessary
+    // Update high score history if current score is a new high score
     if (score > highScore) {
+        // Add new high score with timestamp to history
+        const newHighScore = {
+            score: score,
+            date: new Date().toLocaleString() // Store date and time
+        };
+        highScoreHistory.push(newHighScore);
+        
+        // Update current high score
         highScore = score;
-        localStorage.setItem('snakeHighScore', highScore);
+        
+        // Save updated high score history to localStorage
+        localStorage.setItem('snakeHighScoreHistory', JSON.stringify(highScoreHistory));
+        
+        // Update high score display
         highScoreElement.textContent = highScore;
+        
+        // Update history display
+        updateHighScoreHistoryDisplay();
     }
     
     // Show game over overlay
@@ -240,11 +264,47 @@ function togglePause() {
     }
 }
 
-// Reset high score to zero
+// Update high score history display
+function updateHighScoreHistoryDisplay() {
+    if (highScoreHistoryElement) {
+        // Sort high scores in descending order to show top scores first
+        const sortedHistory = [...highScoreHistory].sort((a, b) => b.score - a.score);
+        
+        // Clear the history display
+        highScoreHistoryElement.innerHTML = '';
+        
+        // Display the top 5 scores
+        const topScores = sortedHistory.slice(0, 5);
+        
+        if (topScores.length === 0) {
+            highScoreHistoryElement.innerHTML = '<p>No high scores yet</p>';
+            return;
+        }
+        
+        topScores.forEach((entry, index) => {
+            const scoreItem = document.createElement('div');
+            scoreItem.className = 'history-score-item';
+            scoreItem.innerHTML = `
+                <span class="rank">#${index + 1}</span>
+                <span class="score">${entry.score}</span>
+                <span class="date">${entry.date}</span>
+            `;
+            highScoreHistoryElement.appendChild(scoreItem);
+        });
+    }
+}
+
+// Reset high score history
 function resetHighScore() {
+    highScoreHistory = [];
     highScore = 0;
-    localStorage.setItem('snakeHighScore', highScore);
+    localStorage.removeItem('snakeHighScoreHistory');
+    localStorage.setItem('snakeHighScore', highScore); // Keep this for backward compatibility
     highScoreElement.textContent = highScore;
+    
+    // Update history display
+    updateHighScoreHistoryDisplay();
+    
     // Also reset the display in the game over overlay if visible
     if (!gameOverOverlay.classList.contains('hidden')) {
         finalHighScoreElement.textContent = highScore;
