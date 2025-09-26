@@ -2,6 +2,12 @@
 
 A classic Snake game built with vanilla HTML, CSS, and JavaScript. This project demonstrates a complete implementation of the popular Snake game with responsive design and modern UI elements.
 
+## 📸 Screenshots
+
+![Snake Game Screenshot](screenshot.png)
+
+*Gameplay screenshot showing the snake moving around the board with food and score display*
+
 ## 🎮 Features
 
 - Classic Snake gameplay mechanics
