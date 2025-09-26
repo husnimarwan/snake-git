@@ -239,3 +239,14 @@ function togglePause() {
         pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
     }
 }
+
+// Reset high score to zero
+function resetHighScore() {
+    highScore = 0;
+    localStorage.setItem('snakeHighScore', highScore);
+    highScoreElement.textContent = highScore;
+    // Also reset the display in the game over overlay if visible
+    if (!gameOverOverlay.classList.contains('hidden')) {
+        finalHighScoreElement.textContent = highScore;
+    }
+}
