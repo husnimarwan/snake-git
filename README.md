@@ -13,6 +13,7 @@ A classic Snake game built with vanilla HTML, CSS, and JavaScript. This project 
 - Classic Snake gameplay mechanics
 - Responsive design that works on both desktop and mobile devices
 - Score tracking with high score persistence using localStorage
+- High score history with date and time tracking
 - Mobile touch controls for on-the-go gaming
 - Pause/resume functionality
 - Dynamic difficulty (speed increases as you play)
@@ -73,7 +74,17 @@ snake-game/
 
 - Each food item eaten: +10 points
 - High score is saved in browser's localStorage
+- High score history tracks your top scores with date and time
 - Game speed gradually increases as you progress
+
+## 📊 High Score History
+
+The game now includes an advanced high score tracking system that:
+- Records every new high score achievement with the exact date and time
+- Displays the top 5 high scores in the history panel
+- Shows rank, score, and timestamp for each entry
+- Allows you to reset all high scores using the "Reset High Score" button
+- Preserves your complete gaming history between sessions using localStorage
 
 ## 🤝 Contributing
 
